@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dulce Antojo</title>
+    <link rel="icon" href="frap.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Fredoka+One&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1c1c1e;
+            --secondary-color: #2c2c2e;
+            --accent-color: #d4af37;
+            --light-bg: #121212;
+            --dark-text: #f5f5f7;
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-text);
+            position: relative;
+            background-color: var(--light-bg);
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: "";
+            background-image: url('pfresas.png');
+            background-repeat: repeat;
+            background-size: 100px;
+            opacity: 0.08;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Fredoka One', cursive;
+        }
+        
+        header {
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 4rem 1rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(153, 17, 17, 0.1);
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('frap.png') center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        header > * {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            max-width: 100%;
+            height: auto;
+            padding: 0 15px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .menu-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+        
+        .menu-section.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .menu-item {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .menu-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: var(--accent-color);
+        }
+        
+        .menu-item img {
+            width: 80px;
+            height: auto;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-item:hover img {
+            transform: rotate(-5deg) scale(1.1);
+        }
+        
+        .menu-item h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .menu-item ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .menu-item ul li {
+            margin-bottom: 6px;
+            font-size: 0.9em;
+            position: relative;
+            padding-left: 15px;
+        }
+        ul li {
+  color: #222; /* o usa color: black; */
+}
+
+        .menu-item ul li::before {
+            content: "•";
+            color: var(--secondary-color);
+            position: absolute;
+            left: 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.9em;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            margin-top: 3rem;
+            position: relative;
+        }
+        
+        footer::before {
+            content: "";
+            display: block;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-color), transparent);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+        
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #25D366;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+        
+        .whatsapp-float:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.4);
+        }
+        
+        .whatsapp-float img {
+            width: 60%;
+            height: 60%;
+            border-radius: 0;
+        }
+
+        /* Galería mejorada */
+        .gallery-section {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 15px;
+            overflow: hidden;
+        }
+        
+        .gallery-title {
+        text-align: center;
+        color: white; /* Cambiado a blanco */
+        font-size: 2em;
+        margin-bottom: 30px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5); /* Añadido sombra para mejor legibilidad */
+        }
+        
+        .gallery-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .gallery-item.visible {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.05) translateY(0);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+     h2 {
+    color: white;
+        
+}
+
+
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.9em;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            opacity: 1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Media queries para tablets y desktop */
+        @media (min-width: 768px) {
+            header {
+                padding: 5rem 1rem;
+            }
+            
+            .menu-section {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 25px;
+                padding: 25px;
+            }
+            
+            .menu-item {
+                padding: 25px;
+            }
+            
+            .menu-item img {
+                width: 100px;
+            }
+            
+            .menu-item h2 {
+                font-size: 1.5em;
+            }
+            
+            .menu-item ul li {
+                font-size: 1em;
+            }
+            
+            .logo {
+                width: 600px;
+            }
+            
+            /* Galería para desktop */
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 25px;
+            }
+            
+            .gallery-item img {
+                height: 250px;
+            }
+            
+            .gallery-caption {
+                font-size: 1em;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .menu-section {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="dulceantojo.png" alt="Dulce Antojo" class="logo">
+    <p>Te ofrece lo más dulce y delicioso</p>
+</header>
+
+<a href="https://wa.me/521" class="whatsapp-float" target="_blank">
+    <img src="whats.png" alt="WhatsApp">
+</a>
+
+<section class="menu-section">
+    <div class="menu-item">
+        <img src="frappe.jpeg" alt="Frappé">
+        <h2>Frappé</h2>
+        <h2>30$</h2>
+        <ul>
+            <li>Fresa</li>
+            <li>Mazapán</li>
+            <li>Galleta Oreo</li>
+            <li>Chocolate</li>
+            <li>Café</li>
+        </ul>
+    </div>
+
+    <div class="menu-item">
+        <img src="gelatina.png" alt="Gelatina">
+        <h2>Gelatinas</h2>
+        <h2>10$ solas</h2>
+        <h2>17$ con rompope</h2>
+        <ul>
+            <li>Jerez</li>
+            <li>Grosella</li>
+            <li>Limón</li>
+            <li>Anís</li>
+            <li>Piña</li>
+            <li>Vainilla</li>
+            <li>Chicle</li>
+            <li>Naranja</li>
+        </ul>
+    </div>
+
+    <div class="menu-item">
+        <img src="crepas.jpeg" alt="Crepas">
+        <h2>Crepas</h2>
+        <h2>45$ Con dos ingredientes</h2>
+        <h2>+5$ con ingrediente extra</h2>
+        <ul>
+            <li>Mermelada</li>
+            <li>Cajeta</li>
+            <li>Lechera</li>
+            <li>Miel</li>
+            <li>Nutella</li>
+            <li>Philadelphia</li>
+            <li>Frutas (Plátano, Fresa, Durazno, Piña, Zarzamora, Frutos rojos)</li>
+            <h2>Topping</h2>
+            <ul>
+            <li>Almendra</li>
+            <li>Nuez</li>
+            <li>Granola</li>
+            </ul>
+        </ul>
+    </div>
+
+    <div class="menu-item">
+        <img src="choko.png" alt="Chocomilk">
+        <h2>Chocomilk</h2>
+        <h2>25$</h2>
+        <ul>
+            <li>Fresa</li>
+            <li>Galleta</li>
+            <li>Chicle</li>
+            <li>Nuez</li>
+            <li>Coco</li>
+            <li>Plátano</li>
+            <li>Capuchino</li>
+            <li>Vainilla</li>
+            <li>Chocolate</li>
+            <li>Café</li>
+        </ul>
+    </div>
+    <div class="menu-item">
+        <img src="fresascho.png" alt="Chocofresas">
+        <h2>Chocofresas</h2>
+        <h2>35$</h2>
+        <h2>20$</h2>
+    </div>
+    <div class="menu-item">
+        <img src="fcrema.jpeg" alt="Fresas con crema">
+        <h2>Fresas con crema chantilly</h2>
+        <h2>50$</h2>
+    </div>
+</section>
+
+<!-- Sección de Galería de Productos -->
+<section class="gallery-section">
+    <h2 class="gallery-title">Nuestros Productos</h2>
+    <div class="gallery-grid">
+        <div class="gallery-item">
+            <img src="1.jpeg" alt="Frappé de Chocolate">
+            <div class="gallery-caption">Frappé de Chocolate</div>
+        </div>
+        <div class="gallery-item">
+            <img src="2.jpeg" alt="Frappe Oreo">
+            <div class="gallery-caption">Frappe Oreo</div>
+        </div>
+        <div class="gallery-item">
+            <img src="3.jpeg" alt="Frappe de Fresa">
+            <div class="gallery-caption">Frappe de Fresa</div>
+        </div>
+        <div class="gallery-item">
+            <img src="4.jpeg" alt="Frappe de Mazapán">
+            <div class="gallery-caption">Frappe de Mazapán</div>
+        </div>
+        <div class="gallery-item">
+            <img src="6.jpeg" alt="Hot Cakes">
+            <div class="gallery-caption">Hot Cakes</div>
+        </div>
+        <div class="gallery-item">
+            <img src="7.jpeg" alt="Crepas">
+            <div class="gallery-caption">Crepas</div>
+        </div>
+        <div class="gallery-item">
+            <img src="8.jpeg" alt="Fresas con crema">
+            <div class="gallery-caption">Fresas con crema</div>
+        </div>
+        <div class="gallery-item">
+            <img src="9.jpeg" alt="Chamoyada">
+            <div class="gallery-caption">Chamoyada</div>
+        </div>
+        <div class="gallery-item">
+            <img src="10.jpeg" alt="Frappe">
+            <div class="gallery-caption">Frappe</div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    © 2025 Dulce Antojo. Todos los derechos reservados.
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animación inicial del logo
+        const logo = document.querySelector('.logo');
+        logo.style.opacity = '0';
+        logo.style.transform = 'scale(0.8)';
+        setTimeout(() => {
+            logo.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            logo.style.opacity = '1';
+            logo.style.transform = 'scale(1)';
+        }, 300);
+        
+        // Carga progresiva de las secciones
+        setTimeout(() => {
+            document.querySelector('.menu-section').classList.add('loaded');
+        }, 500);
+        
+        // Scroll animations
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.gallery-title, .gallery-item');
+            
+            elements.forEach((element, index) => {
+                const rect = element.getBoundingClientRect();
+                const isVisible = rect.top <= window.innerHeight * 0.75;
+                
+                if (isVisible && !element.classList.contains('visible')) {
+                    setTimeout(() => {
+                        element.classList.add('visible');
+                    }, 150 * index);
+                }
+            });
+        }
+        
+        window.addEventListener('load', animateOnScroll);
+        window.addEventListener('scroll', animateOnScroll);
+    });
+</script>
+
+</body>
+</html>
